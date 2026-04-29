@@ -1,0 +1,45 @@
+abstract class Routes {
+  static const splashRoute = '/';
+  static const authRoute = '/authScreen';
+  static const bottomNavRoute = '/bottomNav';
+  static const getOtpRoute = '/getOtpScreen';
+  static const otpVerifyRoute = '/otpVerifyScreen';
+  static const resetPasswordRoute = '/resetPasswordScreen';
+  static const dashboardRoute = '/dashboardScreen';
+  static const walletScreenRoute = '/walletScreen';
+  static const rechargeScreenRoute = '/rechargeScreen';
+  static const accountSettingsRoute = '/accountSettingsScreen';
+  static const billingAddressRoute = '/billingAddressScreen';
+  static const shippingAddressRoute = '/shippingAddressScreen';
+  static const createShopRoute = '/sreateShopScreen';
+  static const supportTicketRoute = '/supportTicketScreen';
+  static const createSupportTicketRoute = '/createSupportTicket';
+  static const premiumScreenRoute = '/premiumScreen';
+  static const myShopRoute = '/myShopScreen';
+  static const addProductRoute = '/addProductScreen';
+  static const customerOrderRoute = '/customerOrderScreen';
+  static const orderDetailsRoute = '/orderDetailsScreen';
+  static const chatDetailsRoute = '/chatDetailsScreen';
+  static const postListRoute = '/postListScreen';
+  static const msgSupportTicketRoute = '/msgSupportTicketScreen';
+  static const replySupportTicketRoute = '/replySupportTicket';
+  static const productDtlRoute = '/productDtlScreen';
+  static const seeAllCategoriesRoute = '/seeAllCategories';
+  static const shoppingCartRoute = '/shoppingCartScreen';
+  static const wishlistScreenRoute = '/wishlistScreen';
+  static const messengerScreenRoute = '/messengerScreen';
+  static const chatListScreenRoute = '/chatListScreen';
+  static const morePageScreenRoute = '/morePageScreen';
+  static const createBuyerProfileRoute = '/createBuyerProfileScreen';
+  static const browseCardsRoute = '/browseCardsScreen';
+  static const buyerProfilesRoute = '/buyerProfilesScreen';
+  static const buyerProfileDetailRoute = '/buyerProfileDetailScreen';
+  static const editCardRoute = '/editCardScreen';
+  static const promoteCardsRoute = '/promoteCardsScreen';
+  static const buyerProfileRoute = '/buyerProfileScreen';
+  static const editBuyerProfileRoute = '/editBuyerProfileScreen';
+  static const editProfileRoute = '/editProfileScreen';
+  static const searchResultsRoute = '/searchResultsScreen';
+  static const affiliateRoute = '/affiliateScreen';
+
+}

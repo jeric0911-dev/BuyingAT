@@ -1,0 +1,17 @@
+a {
+    text-decoration: none;
+}
+
+.ql-toolbar {
+    border-top-left-radius: 4px !important;
+    border-top-right-radius: 4px !important;
+  }
+  
+  .ql-container {
+    border-bottom-left-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+  }
+  
+  .ql-editor {
+    min-height: 150px;
+  }

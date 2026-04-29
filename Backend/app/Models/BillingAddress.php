@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class BillingAddress extends Model
+{
+    use HasFactory;
+
+    protected $guarded = [];
+
+    //user associated with billing address
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+}

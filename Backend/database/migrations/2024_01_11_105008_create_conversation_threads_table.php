@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('conversation_threads', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('sender_id'); // User initiating the conversation
+            $table->unsignedBigInteger('receiver_id'); // User being contacted
+            $table->unsignedBigInteger('product_id'); // The related product
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('conversation_threads');
+    }
+};

@@ -1,0 +1,107 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Create deployment package
+      run: |
+        # Create a zip file of the source code
+        zip -r buyingat-backend.zip . \
+          -x ".git/*" \
+          -x "node_modules/*" \
+          -x "vendor/*" \
+          -x "storage/logs/*" \
+          -x ".env" \
+    
+    - name: Upload source code to VPS
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: 185.185.82.106
+        username: root
+        password: Snips123
+        port: 22
+        source: "buyingat-backend.zip"
+        target: "/root/"
+    
+    - name: Deploy to server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: 185.185.82.106
+        username: root
+        password: Snips123
+        port: 22
+        script: |
+          # Install required packages
+          apt update && apt install -y unzip
+          
+          # Step 1: Backup .env file
+          if [ -f /root/BuyingAt_Backend/.env ]; then
+            cp /root/BuyingAt_Backend/.env /root/.env.backup
+            echo "Backed up .env file"
+          fi
+          
+          # Step 2: Delete all source code except .env
+          cd /root
+          if [ -d "BuyingAt_Backend" ]; then
+            find BuyingAt_Backend -type f ! -name ".env" -delete
+            find BuyingAt_Backend -type d -empty -delete
+            echo "Deleted old source code (except .env)"
+          fi
+          
+          # Step 3: Extract new source code
+          cd /root
+          unzip -o buyingat-backend.zip -d BuyingAt_Backend/
+          echo "Extracted new source code"
+          
+          # Step 4: Restore .env file
+          if [ -f /root/.env.backup ]; then
+            cp /root/.env.backup /root/BuyingAt_Backend/.env
+            rm /root/.env.backup
+            echo "Restored .env file"
+          fi
+          
+          # Step 5: Deploy project
+          cd /root/BuyingAt_Backend
+          
+          # Set composer environment variables
+          export COMPOSER_ALLOW_SUPERUSER=1
+          export COMPOSER_MEMORY_LIMIT=-1
+          
+          # Install dependencies
+          composer install --no-dev --optimize-autoloader --no-interaction
+          
+          # Clear and cache configurations
+          php artisan config:clear
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+          
+          # Run migrations
+          php artisan migrate --force
+          
+          # Restart queue
+          php artisan queue:restart
+          
+          # Step 6: Set permissions
+          chown -R www-data:www-data storage bootstrap/cache
+          chmod -R 755 storage bootstrap/cache
+          
+          # Step 7: Restart services
+          systemctl restart buyingat-backend.service
+          systemctl reload nginx
+          
+          # Step 8: Cleanup
+          rm /root/buyingat-backend.zip
+          echo "Deployment completed successfully!"
